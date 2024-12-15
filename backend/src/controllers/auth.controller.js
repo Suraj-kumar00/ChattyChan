@@ -1,6 +1,4 @@
-export const singup = (req, res) => {
-  res.send("singup route");
-};
+export const singup = (req, res) => {};
 
 export const login = (req, res) => {
   res.send("login route");
