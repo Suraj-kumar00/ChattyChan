@@ -2,20 +2,33 @@ import express from "express";
 import authRoutes from "./routes/auth.route.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-
-import { connectDB } from "./lib/db.js";
+import prisma from "./lib/prisma.js"; // Updated import
 
 dotenv.config();
 const PORT = process.env.PORT;
 
 const app = express();
-app.use(express.json());
 
+// Database connection check
+async function checkDatabaseConnection() {
+  try {
+    await prisma.$connect();
+    console.log("✅ PostgreSQL connected via Prisma");
+  } catch (error) {
+    console.error("❌ Database connection error:", error);
+    process.exit(1); // Exit if DB connection fails
+  }
+}
+
+// Middleware
+app.use(express.json());
 app.use(cookieParser());
 
+// Routes
 app.use("/api/auth", authRoutes);
 
-app.listen(PORT, () => {
+// Server startup
+app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
-  connectDB();
+  await checkDatabaseConnection(); // Connect to PostgreSQL
 });

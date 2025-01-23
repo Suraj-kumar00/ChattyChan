@@ -1,48 +1,53 @@
 import { generateToken } from "../lib/utils.js";
-import User from "../models/user.models.js";
+import prisma from "../lib/prisma.js";
 import bcrypt from "bcryptjs";
+import cloudinary from "cloudinary";
 
-export const singup = async (req, res) => {
+export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
   try {
     if (!fullName || !email || !password) {
       return res.status(400).json({ msg: "All fields are required" });
     }
-    // hash password => for this we have installed  bcrypt js
+
     if (password.length < 6) {
       return res
         .status(400)
         .json({ msg: "Password must be at least 6 characters long" });
     }
 
-    const user = await User.findOne({ email });
-    if (user) return res.status(400).json({ msg: "User already exists" });
+    // Check existing user
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+    if (existingUser)
+      return res.status(400).json({ msg: "User already exists" });
 
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new User({
-      fullName,
-      email,
-      password: hashedPassword,
+    // Create new user
+    const newUser = await prisma.user.create({
+      data: {
+        fullName,
+        email,
+        password: hashedPassword,
+        profilePic: "",
+      },
     });
 
-    if (newUser) {
-      // generate jwt token
-      generateToken(newUser._id, res);
-      await newUser.save();
+    // Generate JWT token
+    generateToken(newUser.id, res);
 
-      res.status(201).json({
-        _id: newUser._id,
-        fullName: newUser.fullName,
-        email: newUser.email,
-        profilePicture: newUser.profilePicture,
-      });
-    } else {
-      res.status(400).json({ msg: "Invalid user data" });
-    }
+    res.status(201).json({
+      id: newUser.id,
+      fullName: newUser.fullName,
+      email: newUser.email,
+      profilePic: newUser.profilePic,
+    });
   } catch (err) {
-    console.log("Error in singup controller", err.message);
+    console.log("Error in signup controller", err.message);
     res.status(500).json({ msg: "Internal Server error" });
   }
 };
@@ -50,7 +55,9 @@ export const singup = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
 
     if (!user) return res.status(400).json({ msg: "Invalid credentials" });
 
@@ -58,12 +65,13 @@ export const login = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
-    generateToken(user._id, res);
+
+    generateToken(user.id, res);
     res.status(200).json({
-      _id: user._id,
+      id: user.id,
       fullName: user.fullName,
       email: user.email,
-      profilePicture: user.profilePicture,
+      profilePic: user.profilePic,
     });
   } catch (err) {
     console.log("Error in login controller", err.message);
@@ -84,29 +92,31 @@ export const logout = (req, res) => {
 export const updateProfile = async (req, res) => {
   try {
     const { profilePic } = req.body;
-    const userId = req.user._id;
+    const userId = req.user.id;
 
     if (!profilePic) {
       return res.status(400).json({ msg: "Profile picture is required" });
     }
+
     const uploadResponse = await cloudinary.uploader.upload(profilePic);
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { profilePic: uploadResponse.secure_url },
-      { new: true }
-    );
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        profilePic: uploadResponse.secure_url,
+      },
+    });
 
     res.status(200).json(updatedUser);
-  } catch {
+  } catch (error) {
     console.log("Error in updateProfile controller", error.message);
     res.status(500).json({ msg: "Internal Server error" });
   }
 };
 
-export const checkAuth = (req, ses) => {
+export const checkAuth = (req, res) => {
   try {
     res.status(200).json(req.user);
-  } catch {
+  } catch (error) {
     console.log("Error in checkAuth controller", error.message);
     res.status(500).json({ msg: "Internal Server error" });
   }

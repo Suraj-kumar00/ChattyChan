@@ -3,13 +3,15 @@ import {
   checkAuth,
   login,
   logout,
-  singup,
+  updateProfile,
+  signup,
 } from "../controllers/auth.controller.js";
 import { protectRoute } from "../middleware/auth.middleware.js";
+// import { sign } from "jsonwebtoken";
 
 const router = express.Router();
 
-router.post("/singup", singup);
+router.post("/signup", signup);
 
 router.post("/login", login);
 
