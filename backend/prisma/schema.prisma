@@ -20,7 +20,6 @@ model User {
   sentMessages Message[] @relation("SentMessages")
   receivedMessages Message[] @relation("ReceivedMessages")
 
-  // "member since" will use createdAt field
 }
 
 model Message {
@@ -29,8 +28,11 @@ model Message {
   updatedAt   DateTime @updatedAt @map("updated_at")
   text        String?
   image       String?
-  sender      User     @relation("SentMessages", fields: [senderId], references: [id])
-  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  sender      User     @relation("SentMessages", fields: [senderId], references: [id], onDelete: Cascade)
+  receiver    User     @relation("ReceivedMessages", fields: [receiverId], references: [id], onDelete: Cascade)
   senderId    Int
   receiverId  Int
+
+  @@index([senderId, createdAt])
+  @@index([receiverId, createdAt])
 }
