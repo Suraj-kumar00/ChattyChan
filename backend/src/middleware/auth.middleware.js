@@ -3,8 +3,7 @@ import prisma from "../lib/prisma.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.token; // Changed from res.cookies to req.cookies
-
+    const token = req.cookies.jwt;
     if (!token) {
       return res
         .status(401)
@@ -19,7 +18,7 @@ export const protectRoute = async (req, res, next) => {
         id: true,
         email: true,
         fullName: true,
-        profilePicture: true,
+        profilePic: true,
         createdAt: true,
         updatedAt: true,
       },

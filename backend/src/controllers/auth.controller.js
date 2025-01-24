@@ -1,7 +1,7 @@
 import { generateToken } from "../lib/utils.js";
 import prisma from "../lib/prisma.js";
 import bcrypt from "bcryptjs";
-import cloudinary from "cloudinary";
+import cloudinary from "../lib/cloudinary.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;

@@ -2,7 +2,7 @@ import express from "express";
 import authRoutes from "./routes/auth.route.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import prisma from "./lib/prisma.js"; // Updated import
+import prisma from "./lib/prisma.js";
 
 dotenv.config();
 const PORT = process.env.PORT;
