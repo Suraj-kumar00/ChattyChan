@@ -71,6 +71,7 @@ export const sendMessage = async (req, res) => {
       },
     });
 
+    // Send the message to the receiver | real-time messaging functionality using socket.io
     const receiverSocketId = getReceiverSocketId(receiverId);
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("newMessage", {
