@@ -14,8 +14,9 @@
 1. **`Docker`** for containerized microservices architecture
 2. **`Kubernetes`** (EKS) for orchestration and auto-scaling
 3. **`GitHub Actions`** (CI/CD pipelines for automated testing/deployment)
-4. **`Terraform`** (IaC) for provisioning cloud resources on **AWS**
-5. **`Prometheus`** + **`Grafana`** (monitoring, alerting, and dashboard visualization)
+4. **`AWS`** Cloud Platform
+5. **`Terraform`** (IaC) for provisioning cloud resources on **AWS**
+6. **`Prometheus`** + **`Grafana`** (monitoring, alerting, and dashboard visualization)
 
 ### **Installation on Local Machine**
 
