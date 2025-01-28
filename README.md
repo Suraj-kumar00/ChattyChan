@@ -1,6 +1,13 @@
-# Full Stack Chat Application 💬
+<div align="center">
+<h1>ChatttyChan </h1>
+</div>
 
-**Built a `real-time`, `scalable` chat application** enabling users to send and receive messages instantly using modern full-stack technologies. Implemented **cloud-native DevOps practices** for `seamless deployment`,` CI/CD automation`, and `high availability` with load balancing.
+**ChatttyChan a `real-time`, `scalable` chat application** enabling users to send and receive messages instantly using modern full-stack technologies. Implemented **cloud-native DevOps practices** for `seamless deployment`,` CI/CD automation`, and `high availability` with load balancing.
+
+<div align="center">
+
+  <img src="frontend/public/chattychan.svg" alt="chattychan" width="300" height="300" style="border-radius: 20px;">
+</div>
 
 ## **Build With** 🛠️
 
