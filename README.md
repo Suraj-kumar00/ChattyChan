@@ -1,8 +1,8 @@
 <div align="center">
-<h1>ChatttyChan </h1>
+<h1>ChattyChan </h1>
 </div>
 
-**ChatttyChan a `real-time`, `scalable` chat application** enabling users to send and receive messages instantly using modern full-stack technologies. Implemented **cloud-native DevOps practices** for `seamless deployment`,` CI/CD automation`, and `high availability` with load balancing.
+**ChattyChan a `real-time`, `scalable` chat application** enabling users to send and receive messages instantly using modern full-stack technologies. Implemented **cloud-native DevOps practices** for `seamless deployment`,` CI/CD automation`, and `high availability` with load balancing.
 
 <div align="center">
 
