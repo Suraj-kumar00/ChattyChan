@@ -33,4 +33,4 @@ COPY . .
 EXPOSE 5001
 
 # Run migrations and start application
-CMD ["sh", "-c", "npx prisma migrate deploy", "npm", "run", "dev"]
+CMD ["sh", "-c", "npx prisma migrate deploy && npm run dev"]
