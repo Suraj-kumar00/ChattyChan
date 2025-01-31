@@ -18,16 +18,64 @@
 
 ## **Cloud/DevOps Practices** ☁️
 
-1. **`Docker`** for containerized microservices architecture
-2. **`Kubernetes`** (EKS) for orchestration and auto-scaling
-3. **`GitHub Actions`** (CI/CD pipelines for automated testing/deployment)
-4. **`AWS`** Cloud Platform
-5. **`Terraform`** (IaC) for provisioning cloud resources on **AWS**
-6. **`Prometheus`** + **`Grafana`** (monitoring, alerting, and dashboard visualization)
+1. **`Git`** for version control
+2. **`Docker`** for containerized microservices architecture
+3. **`GitHub Actions`** CI/CD pipelines for pushing building and pushing the docker images to dockerhub
+4. **`Jenkins`** CI/CD pipline for deployment.
+5. **`AWS`** Cloud Platform
+6. **`Terraform`** (IaC) for provisioning cloud resources on **AWS**
+7. **`Kubernetes`** (EKS) for orchestration and auto-scaling
+8. **`Prometheus`** + **`Grafana`** (monitoring, alerting, and dashboard visualization)
+
+---
 
 ### **Installation on Local Machine**
 
+**Run the Frontend**
+
+```bash
+cd frontend
+```
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+> The Frontend is build with Vite so it'll run on [http://localhost:5173](http://localhost:5173)
+
+**Run the Backend**
+
+```bash
+cd backend
+```
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+> The Backend will run on [http://localhost:5001](http://localhost:5001)
+
+---
+
 ### **Installation Using Docker** 🐳
+
+**Install the Docker Desktop in your local machine**
+
+> Because we need Docker Engine/Daemon to run the docker containers
+
+After `cloning` the repository, open the terminal in the root directory(which is chattychatn) and run the below command:
+
+```bash
+docker compose up --build
+```
 
 ## **Contributing** 🤝
 
