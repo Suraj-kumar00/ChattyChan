@@ -16,6 +16,7 @@ RUN npx prisma generate
 # Stage 2: Production image
 FROM node:18-alpine
 
+# set up the working directory
 WORKDIR /app
 
 ENV NODE_ENV=production

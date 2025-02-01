@@ -1,6 +1,7 @@
 # Builder stage
 FROM node:18-alpine AS builder
 
+# Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json first to leverage Docker cache
