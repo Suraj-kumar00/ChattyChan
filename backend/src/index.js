@@ -4,24 +4,19 @@ import authRoutes from "./routes/auth.route.js";
 import messageRoutes from "./routes/message.route.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
-import { createServer } from "http";
-import { Server } from "socket.io";
+import { app, server } from "./lib/socket.js";
 import prisma from "./lib/prisma.js";
 
 dotenv.config();
 const PORT = process.env.PORT;
 
-// Initialize Express and HTTP server
-const app = express();
-const httpServer = createServer(app);
-
-// Initialize Socket.IO
-const io = new Server(httpServer, {
-  cors: {
+// ✅ Correct Middleware Usage
+app.use(
+  cors({
     origin: process.env.CLIENT_URL,
-    methods: ["GET", "POST"],
-  },
-});
+    credentials: true,
+  })
+);
 
 // Database connection check
 async function checkDatabaseConnection() {
@@ -37,12 +32,6 @@ async function checkDatabaseConnection() {
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
 
 // Routes
 app.use("/api/auth", authRoutes);
@@ -52,18 +41,8 @@ app.use("/api/messages", messageRoutes);
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-app.use(
-  express.raw({
-    type: "application/octet-stream",
-    limit: "25mb",
-  })
-);
-
 // Server startup
-httpServer.listen(PORT, async () => {
+server.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
   await checkDatabaseConnection();
 });
-
-// Export for use in socket.js
-export { io };

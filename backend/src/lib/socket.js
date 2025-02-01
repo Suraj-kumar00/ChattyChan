@@ -10,7 +10,6 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: [process.env.CLIENT_URL],
-    credentials: true,
   },
 });
 
@@ -19,7 +18,7 @@ export function getReceiverSocketId(userId) {
 }
 
 // used to store online users
-const userSocketMap = {};
+const userSocketMap = {}; // { userId: socketId }
 
 io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
