@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "backend/Dockerfile"
-      - "frontend/Dockerfile"
+      - "backend/**"
+      - "frontend/**"
 
 jobs:
   build:
