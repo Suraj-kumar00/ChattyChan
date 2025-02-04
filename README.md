@@ -34,14 +34,17 @@
 **Run the Frontend**
 
 ```bash
+# Navigate to frontend
 cd frontend
 ```
 
 ```bash
+# Install dependencies
 npm install
 ```
 
 ```bash
+# Run the frontend server
 npm run dev
 ```
 
@@ -50,14 +53,17 @@ npm run dev
 **Run the Backend**
 
 ```bash
+# Navigate to backend
 cd backend
 ```
 
 ```bash
+# Install dependencies
 npm install
 ```
 
 ```bash
+# Run the backend server
 npm run dev
 ```
 
