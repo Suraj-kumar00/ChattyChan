@@ -29,41 +29,47 @@
 
 ---
 
-### **Installation on Local Machine**
+## **Installation on Local Machine**
 
-**Run the Frontend**
+### **How to run the Frontend**
+
+Navigate to frontend
 
 ```bash
-# Navigate to frontend
 cd frontend
 ```
 
+Install dependencies
+
 ```bash
-# Install dependencies
 npm install
 ```
 
+Run the frontend server
+
 ```bash
-# Run the frontend server
 npm run dev
 ```
 
 > The Frontend is build with Vite so it'll run on [http://localhost:5173](http://localhost:5173)
 
-**Run the Backend**
+### **How to run the Backend**
+
+Navigate to backend
 
 ```bash
-# Navigate to backend
 cd backend
 ```
 
+Install dependencies
+
 ```bash
-# Install dependencies
 npm install
 ```
 
+Run the backend server
+
 ```bash
-# Run the backend server
 npm run dev
 ```
 
@@ -71,7 +77,7 @@ npm run dev
 
 ---
 
-### **Installation Using Docker** 🐳
+## **Installation Using Docker** 🐳
 
 **Install the Docker Desktop in your local machine**
 
