@@ -89,6 +89,16 @@ After `cloning` the repository, open the terminal in the root directory(which is
 docker compose up --build
 ```
 
+## CICD Architecture
+![CICD Architecture]()
+
+
+
+
+
+
+
+
 ## **Contributing** 🤝
 
 Open to collaborations! Check out our [Contributing Guidelines](./CONTRIBUTING.MD) to get started.
