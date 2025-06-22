@@ -14,7 +14,8 @@ const io = new Server(server, {
 });
 
 export function getReceiverSocketId(userId) {
-  return userSocketMap[userId];
+  // Convert userId to string for consistent comparison
+  return userSocketMap[userId.toString()];
 }
 
 // used to store online users
@@ -24,16 +25,36 @@ io.on("connection", (socket) => {
   console.log("A user connected", socket.id);
 
   const userId = socket.handshake.query.userId;
-  if (userId) {
-    userSocketMap[userId] = socket.id;
+  if (userId != null && userId !== "undefined") {
+    // Store userId as string
+    userSocketMap[userId.toString()] = socket.id;
+    // Emit online users immediately after a new user connects
+    io.emit("getOnlineUsers", Object.keys(userSocketMap));
   }
-  // io.emit() is used to sends events to all connected clients
-  io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+  // Handle reconnection
+  socket.on("reconnect", () => {
+    if (userId != null && userId !== "undefined") {
+      userSocketMap[userId.toString()] = socket.id;
+      io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    }
+  });
 
   socket.on("disconnect", () => {
     console.log("A user disconnected", socket.id);
-    delete userSocketMap[userId];
-    io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    if (userId != null && userId !== "undefined") {
+      delete userSocketMap[userId.toString()];
+      // Emit updated online users list after user disconnects
+      io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    }
+  });
+
+  // Cleanup on error
+  socket.on("error", () => {
+    if (userId != null && userId !== "undefined") {
+      delete userSocketMap[userId.toString()];
+      io.emit("getOnlineUsers", Object.keys(userSocketMap));
+    }
   });
 });
 
