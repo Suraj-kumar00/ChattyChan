@@ -1,7 +1,7 @@
 import { generateToken } from "../lib/utils.js";
 import prisma from "../lib/prisma.js";
 import bcrypt from "bcryptjs";
-import cloudinary from "../lib/cloudinary.js";
+import { uploadToS3 } from "../lib/s3.js";
 
 export const signup = async (req, res) => {
   const { fullName, email, password } = req.body;
@@ -98,11 +98,13 @@ export const updateProfile = async (req, res) => {
       return res.status(400).json({ msg: "Profile picture is required" });
     }
 
-    const uploadResponse = await cloudinary.uploader.upload(profilePic);
+    // Upload to S3 and get the URL
+    const imageUrl = await uploadToS3(profilePic, `profile-${userId}`);
+
     const updatedUser = await prisma.user.update({
       where: { id: userId },
       data: {
-        profilePic: uploadResponse.secure_url,
+        profilePic: imageUrl,
       },
     });
 

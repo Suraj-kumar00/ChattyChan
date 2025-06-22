@@ -1,5 +1,5 @@
 import prisma from "../lib/prisma.js";
-import cloudinary from "../lib/cloudinary.js";
+import { uploadToS3 } from "../lib/s3.js";
 import { getReceiverSocketId, io } from "../lib/socket.js";
 
 export const getUsersForSidebar = async (req, res) => {
@@ -58,8 +58,7 @@ export const sendMessage = async (req, res) => {
 
     let imageUrl = null;
     if (image) {
-      const uploadResponse = await cloudinary.uploader.upload(image);
-      imageUrl = uploadResponse.secure_url;
+      imageUrl = await uploadToS3(image, `message-${Date.now()}`);
     }
 
     const newMessage = await prisma.message.create({
