@@ -16,9 +16,14 @@ services:
     build: ./backend
     ports:
       - "5001:5001"
+    env_file:
+      - ./backend/.env
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - DATABASE_URL=postgresql://chattychan:chattypass@db:5432/chattychan_db
+    # volumes:
+    #   - ./backend:/app
+    #   - /app/node_modules
     depends_on:
       db:
         condition: service_healthy
@@ -28,22 +33,24 @@ services:
   db:
     image: postgres:15-alpine
     restart: always
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+    env_file:
+      - ./backend/.env
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U chattychan -d chattychan_db"]
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - app-network
 
 volumes:
   postgres-data:
+    name: chattychan-postgres-data
+    external: false
 
 networks:
   app-network:

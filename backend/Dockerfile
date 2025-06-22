@@ -30,8 +30,11 @@ COPY --from=builder /app/prisma ./prisma
 # Copy application source code
 COPY . .
 
+# Make init script executable
+RUN chmod +x init.sh
+
 # Expose port
 EXPOSE 5001
 
-# Run migrations and start application
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run dev"]
+# Run init script that handles migrations, seeding, and starts the app
+CMD ["./init.sh"]
