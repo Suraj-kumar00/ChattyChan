@@ -4,6 +4,8 @@
 
 **ChattyChan a `real-time`, `scalable` chat application** enabling users to send and receive messages instantly using modern full-stack technologies. Implemented **cloud-native DevOps practices** for `seamless deployment`,` CI/CD automation`, and `high availability` with load balancing.
 
+[![Docker Build and Push to DockerHub](https://github.com/Suraj-kumar00/ChattyChan/actions/workflows/docker-build.yaml/badge.svg?branch=main)](https://github.com/Suraj-kumar00/ChattyChan/actions/workflows/docker-build.yaml)
+
 <div align="center">
 
   <img src="frontend/public/chattychan.svg" alt="chattychan" width="300" height="300" style="border-radius: 20px;">
